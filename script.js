@@ -64,9 +64,6 @@ function createTodo() {
         updateCounter();
     });
 
-
-
-
     todoContainer.insertBefore(newTodo, todoContainer.firstChild);
     setupDragAndDrop();
 }
@@ -74,10 +71,12 @@ function createTodo() {
 //MARKING TODO AS DONE
 todoContainer.addEventListener('click', (event) => {
     const clickedElement = event.target;
+    const listItem = clickedElement.closest('.todo');
 
-    // Check if the clicked element has the class 'list-checkbox'
+    if (!listItem.classList.contains('checked')) {
+        counter--
+    }
     if (clickedElement.classList.contains('list-checkbox')) {
-        const listItem = clickedElement.closest('.todo');
         const gradientBorder = clickedElement.closest('.gradient-border');
         gradientBorder.style.backgroundColor = "white"
         listItem.classList.add('checked');
@@ -89,7 +88,7 @@ todoContainer.addEventListener('click', (event) => {
         checkedText.style.textDecoration = 'line-through';
         checkedText.style.fontWeight = '400'
 
-        counter--
+
         updateCounter();
     }
 });
@@ -156,63 +155,69 @@ function updateCounter() {
     }
 }
 
-// Filtering buttons
-const allBtn = document.querySelector('.all');
-const activeBtn = document.querySelector('.active');
-const completedBtn = document.querySelector('.completed');
-const clearBtn = document.querySelector('#clear');
+// Query selectors for all filter buttons
+const allBtns = document.querySelectorAll('.all');
+const activeBtns = document.querySelectorAll('.active');
+const completedBtns = document.querySelectorAll('.completed');
 
-// Initial selection of all todo items
-const todos = document.querySelectorAll('.todo');
+let currentFilter = 'all';
+
+// Function to add event listeners to all filter buttons
+function addFilterButtonListeners(buttons, filter) {
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterTodos(filter);
+            updateFilterButtons(btn);
+        });
+    });
+}
+
+// Add event listeners for all filter buttons
+addFilterButtonListeners(allBtns, 'all');
+addFilterButtonListeners(activeBtns, 'active');
+addFilterButtonListeners(completedBtns, 'completed');
+
+function filterTodos(filter) {
+    const todos = document.querySelectorAll('.todo');
+    currentFilter = filter;
+
+    todos.forEach(todo => {
+        if (filter === 'all') {
+            todo.classList.remove('hidden');
+        } else if (filter === 'active') {
+            if (todo.classList.contains('checked')) {
+                todo.classList.add('hidden');
+            } else {
+                todo.classList.remove('hidden');
+            }
+        } else if (filter === 'completed') {
+            if (todo.classList.contains('checked')) {
+                todo.classList.remove('hidden');
+            } else {
+                todo.classList.add('hidden');
+            }
+        }
+    });
+}
 
 function updateFilterButtons(activeButton) {
-    const buttons = [allBtn, activeBtn, completedBtn];
+    const buttons = [...allBtns, ...activeBtns, ...completedBtns];
     buttons.forEach(button => button.classList.remove('blue-btn'));
     activeButton.classList.add('blue-btn');
 }
 
-allBtn.addEventListener('click', () => {
-    todos.forEach(todo => {
-        todo.classList.remove('hidden');
-    });
-    updateFilterButtons(allBtn);
-});
-
-
-activeBtn.addEventListener('click', () => {
-    todos.forEach(todo => {
-        todo.classList.remove('hidden');
-    });
-
-    const completedTodos = document.querySelectorAll('.todo.checked');
-    completedTodos.forEach(completeTodo => {
-        completeTodo.classList.add('hidden');
-    });
-
-    updateFilterButtons(activeBtn);
-});
-
-completedBtn.addEventListener('click', () => {
-    todos.forEach(todo => {
-        todo.classList.add('hidden');
-    });
-
-    const completedTodos = document.querySelectorAll('.todo.checked');
-    completedTodos.forEach(completeTodo => {
-        completeTodo.classList.remove('hidden');
-    });
-
-    updateFilterButtons(completedBtn);
-});
-
 // Clear completed todos
+const clearBtn = document.querySelector('#clear')
 clearBtn.addEventListener('click', () => {
-    // Remove completed todos
     const completedTodos = document.querySelectorAll('.todo.checked');
     completedTodos.forEach(todo => {
         todo.remove();
     });
 });
+
+filterTodos('all');
+updateFilterButtons(allBtns[0]);
+
 
 
 // DARK MODE SWITCH
