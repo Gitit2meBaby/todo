@@ -1,0 +1,207 @@
+:root {
+    /* ### Primary */
+    --Bright-Blue: hsl(220, 98%, 61%);
+    --Check-Background: linear-gradient(to right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+    /* ### Neutral */
+}
+
+.light-theme {
+    --background-main: hsl(0, 0%, 98%);
+    --Very-Light-Gray: hsl(0, 0%, 98%);
+    --Very-Light-Grayish-Blue: hsl(236, 33%, 92%);
+    --Light-Grayish-Blue: hsl(233, 11%, 84%);
+    --Dark-Grayish-Blue: hsl(236, 9%, 61%);
+    /* --Very-Dark-Grayish-Blue: hsl(235, 19%, 35%); */
+    --placeholder-text: hsl(236, 9%, 61%);
+    --text: hsl(235, 19%, 35%);
+}
+
+.dark-theme {
+    --Very-Light-Gray: hsl(0, 0%, 98%);
+    --Very-Dark-Blue: hsl(235, 21%, 11%);
+    --Very-Dark-Desaturated-Blue: hsl(235, 24%, 19%);
+    --Light-Grayish-Blue: hsl(234, 39%, 85%);
+    --Light-Grayish-Blue-hover: hsl(236, 33%, 92%);
+    --Dark-Grayish-Blue: hsl(234, 11%, 52%);
+    --Very-Dark-Grayish-Blue: hsl(233, 14%, 35%);
+    --Very-Dark-Grayish-Blue: hsl(237, 14%, 26%);
+}
+
+* {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 18px;
+    /* - Weights: 400, 700 */
+}
+
+body {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+main {
+    margin: 0;
+    background: url(images/bg-desktop-light.jpg),
+        var(--background-main);
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+.app-container {
+    max-width: 600px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* TITLE SECTION */
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 5vh;
+}
+
+.title h1 {
+    color: var(--Very-Light-Gray);
+    font-size: 2.5rem;
+    letter-spacing: .7rem;
+    margin: 0;
+}
+
+/* INPUT SECTION */
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, .2);
+    border-radius: .5rem;
+}
+
+.input-wrapper {
+    padding-left: 1.5rem;
+}
+
+input {
+    width: 90%;
+    height: 4rem;
+    border-radius: .5rem;
+    border: none;
+    outline: none;
+}
+
+input::placeholder {
+    color: var(--placeholder-text);
+    font-weight: 700;
+}
+
+.checkbox {
+    border: 1px solid var(--Dark-Grayish-Blue);
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.2rem;
+    cursor: pointer;
+}
+
+#inputCheckbox:hover {
+    background: var(--Check-Background);
+    transform: scale(1.5);
+    transition: ease-in 500ms;
+    border: none;
+}
+
+/* LIST SECTION */
+.list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+
+.todoContainer {
+    width: 100%;
+}
+
+.todo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .5rem 1.47rem;
+    width: 91.2%;
+    border-bottom: 1px solid var(--text);
+
+}
+
+.todo>div {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+}
+
+.todo p {
+    font-weight: 700;
+    color: var(--text);
+    cursor: pointer;
+}
+
+/* LIST FOOTER */
+.list-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 0.3rem 1rem;
+    width: 94%;
+}
+
+.list-footer p {
+    font-size: .8rem;
+    color: var(--placeholder-text);
+}
+
+.items-left-container {
+    display: flex;
+    gap: .3rem;
+}
+
+.state-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+}
+
+.state-container p {
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.state-container p:hover {
+    color: var(--text);
+}
+
+#all {
+    color: var(--Bright-Blue);
+}
+
+.clear-container p {
+    text-align: right;
+    cursor: pointer;
+}
+
+.clear-container p:hover {
+    color: var(--text);
+}
+
+
+
+/* FOOTER */
+footer p {
+    text-align: center;
+    font-size: .8rem;
+    color: var(--placeholder-text);
+}
