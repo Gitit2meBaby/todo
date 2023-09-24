@@ -6,7 +6,11 @@
 }
 
 .light-theme {
-    --background-main: hsl(0, 0%, 98%);
+    --background: url(images/bg-desktop-light.jpg),
+        hsl(0, 0%, 98%);
+    --background-mobile: url(images/bg-mobile-light.jpg),
+        hsl(0, 0%, 98%);
+    --app-background: hsl(0, 0%, 98%);
     --Very-Light-Gray: hsl(0, 0%, 98%);
     --Very-Light-Grayish-Blue: hsl(236, 33%, 92%);
     --Light-Grayish-Blue: hsl(233, 11%, 84%);
@@ -14,9 +18,17 @@
     /* --Very-Dark-Grayish-Blue: hsl(235, 19%, 35%); */
     --placeholder-text: hsl(236, 9%, 61%);
     --text: hsl(235, 19%, 35%);
+    --border: hsl(233, 11%, 84%);
 }
 
 .dark-theme {
+    --background: url(images/bg-desktop-dark.jpg),
+        hsl(235, 21%, 11%);
+    --background-mobile: url(images/bg-mobile-dark.jpg),
+        hsl(235, 21%, 11%);
+    --placeholder-text: hsl(233, 14%, 35%);
+    --text: hsl(234, 39%, 85%);
+
     --Very-Light-Gray: hsl(0, 0%, 98%);
     --Very-Dark-Blue: hsl(235, 21%, 11%);
     --Very-Dark-Desaturated-Blue: hsl(235, 24%, 19%);
@@ -25,6 +37,9 @@
     --Dark-Grayish-Blue: hsl(234, 11%, 52%);
     --Very-Dark-Grayish-Blue: hsl(233, 14%, 35%);
     --Very-Dark-Grayish-Blue: hsl(237, 14%, 26%);
+    --app-background: hsl(235, 24%, 19%);
+    --border: hsl(235, 19%, 35%);
+
 }
 
 * {
@@ -40,9 +55,9 @@ body {
 
 main {
     margin: 0;
-    background: url(images/bg-desktop-light.jpg),
-        var(--background-main);
+    background: var(--background);
     background-repeat: no-repeat;
+    background-size: 100%;
     min-height: 100vh;
 }
 
@@ -54,12 +69,25 @@ main {
     gap: 2rem;
 }
 
+@media screen and (max-width: 650px) {
+    main {
+        background: var(--background-mobile);
+        background-repeat: no-repeat;
+        background-size: 100%;
+    }
+
+    .app-container {
+        max-width: 350px;
+        gap: 1rem;
+    }
+}
+
 /* TITLE SECTION */
 .title {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 5vh;
+    padding-top: 10vh;
 }
 
 .title h1 {
@@ -69,26 +97,45 @@ main {
     margin: 0;
 }
 
+.title img {
+    cursor: pointer;
+}
+
+@media screen and (max-width: 650px) {
+    .title {
+        padding-top: 5vh;
+        padding-bottom: 1rem;
+
+    }
+
+    .title h1 {
+        font-size: 1.8rem;
+    }
+}
+
 /* INPUT SECTION */
 .container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: white;
+    background-color: var(--app-background);
     box-shadow: 0 0 10px 5px rgba(0, 0, 0, .2);
     border-radius: .5rem;
 }
 
 .input-wrapper {
+    background-color: var(--app-background);
     padding-left: 1.5rem;
 }
 
 input {
+    color: var(--text);
     width: 90%;
     height: 4rem;
     border-radius: .5rem;
     border: none;
     outline: none;
+    background-color: var(--app-background);
 }
 
 input::placeholder {
@@ -108,11 +155,44 @@ input::placeholder {
     cursor: pointer;
 }
 
+.checkbox svg {
+    opacity: 0;
+}
+
+.checkbox svg:hover {
+    opacity: 1;
+}
+
 #inputCheckbox:hover {
     background: var(--Check-Background);
-    transform: scale(1.5);
+    transform: scale(1.2);
     transition: ease-in 500ms;
     border: none;
+}
+
+@media screen and (max-width: 650px) {
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: var(--app-background);
+        box-shadow: 0 0 10px 5px rgba(0, 0, 0, .2);
+        border-radius: .5rem;
+    }
+
+    .input-wrapper {
+        background-color: var(--app-background);
+        padding-left: 1.5rem;
+    }
+
+    input {
+        width: 85%;
+        height: 3.2rem;
+    }
+
+    input::placeholder {
+        font-size: .8rem;
+    }
 }
 
 /* LIST SECTION */
@@ -130,23 +210,31 @@ input::placeholder {
 }
 
 .todo {
+    background-color: var(--app-background);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: .5rem 1.47rem;
     width: 91.2%;
-    border-bottom: 1px solid var(--text);
+    border-bottom: 1px solid var(--border);
+    border-radius: .5rem .5rem 0 0;
 }
 
 .todo>div {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 2rem
+}
+
+.gradient-border {
+    background: var(--app-background);
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
 }
 
 .gradient-border:hover {
     background: var(--Check-Background);
-    border-radius: 50%;
     width: 27px;
     height: 27px;
     display: flex;
@@ -157,7 +245,7 @@ input::placeholder {
 }
 
 .list-checkbox:hover {
-    background-color: white;
+    background-color: var(--app-background);
     border: white;
     margin-top: 0.2rem;
 }
@@ -177,12 +265,33 @@ input::placeholder {
     transition: ease-in-out, 500ms;
 }
 
+@media screen and (max-width: 650px) {
+    .todo {
+        padding: .3rem 1.47rem;
+        width: 85%;
+    }
+
+    .todo p {
+        font-size: .9rem;
+    }
+
+    .todo>div {
+        gap: 1rem;
+    }
+
+    .gradient-border {
+        padding-bottom: 0.2rem;
+    }
+}
+
 /* LIST FOOTER */
 .list-footer {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     padding: 0.3rem 1rem;
     width: 94%;
+    background-color: var(--app-background);
+    border-radius: .5rem;
 }
 
 .list-footer p {
@@ -211,10 +320,6 @@ input::placeholder {
     color: var(--text);
 }
 
-#all {
-    color: var(--Bright-Blue);
-}
-
 .clear-container p {
     text-align: right;
     cursor: pointer;
@@ -224,6 +329,43 @@ input::placeholder {
     color: var(--text);
 }
 
+@media screen and (min-width: 650px) {
+    .mobile-state-container {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .state-container {
+        display: none;
+    }
+
+    .list-footer {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.3rem 1rem;
+        width: 90%;
+        background-color: var(--app-background);
+        border-radius: .5rem;
+    }
+}
+
+/* mobile container */
+.mobile-state-container {
+    background-color: var(--app-background);
+    justify-content: center;
+    gap: 1rem;
+}
+
+.mobile-state-container p {
+    color: var(--placeholder-text);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.mobile-state-container p:hover {
+    color: var(--text);
+}
 
 
 /* FOOTER */
@@ -240,4 +382,16 @@ footer p {
 
 .hidden {
     display: none;
+}
+
+.blue-btn {
+    color: var(--Bright-Blue) !important;
+}
+
+.blue-btn:hover {
+    color: var(--Bright-Blue) !important;
+}
+
+.mobile-display {
+    display: block;
 }

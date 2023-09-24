@@ -2,6 +2,7 @@ const input = document.querySelector('#createTodo');
 const inputCheckbox = document.querySelector('#inputCheckbox');
 const todoContainer = document.querySelector('#todoContainer');
 let listItem;
+let counter = 0;
 
 // CREATING A TODO
 inputCheckbox.addEventListener('click', () => {
@@ -33,11 +34,13 @@ function createTodo() {
         </div>
         <p>${listItem}</p>
     </div>
-    <svg class="close-btn hidden" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+    <svg class="close-btn hidden mobile-display" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
         <path fill="#494C6B" fill-rule="evenodd"
             d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z" />
     </svg>
     `;
+    counter++
+    updateCounter();
 
 
     // CLOSE BUTTON ACTIONS
@@ -49,13 +52,18 @@ function createTodo() {
 
     // Hide close button when not hovering
     newTodo.addEventListener('mouseleave', () => {
-        // const closeBtn = newTodo.querySelector('.close-btn');
         closeBtn.classList.add('hidden');
     });
 
+    // update counter, but first make sure it hasnt been checked
     closeBtn.addEventListener('click', () => {
-        newTodo.remove()
-    })
+        if (!newTodo.classList.contains('checked')) {
+            counter--;
+        }
+        newTodo.remove();
+        updateCounter();
+    });
+
 
 
 
@@ -80,6 +88,9 @@ todoContainer.addEventListener('click', (event) => {
         checkedText.style.color = 'var(--Light-Grayish-Blue)';
         checkedText.style.textDecoration = 'line-through';
         checkedText.style.fontWeight = '400'
+
+        counter--
+        updateCounter();
     }
 });
 
@@ -128,3 +139,97 @@ function setupDragAndDrop() {
 }
 
 setupDragAndDrop();
+
+// UPDATE COUNTER
+function updateCounter() {
+    const itemsLeft = document.querySelector('#itemsLeft');
+
+    if (counter === 0) {
+        itemsLeft.textContent = "Nothing to do..";
+
+    } else if (counter === 1) {
+        itemsLeft.classList.remove('hidden');
+        itemsLeft.textContent = counter + " item left";
+    } else {
+        itemsLeft.classList.remove('hidden');
+        itemsLeft.textContent = counter + " items left";
+    }
+}
+
+// Filtering buttons
+const allBtn = document.querySelector('.all');
+const activeBtn = document.querySelector('.active');
+const completedBtn = document.querySelector('.completed');
+const clearBtn = document.querySelector('#clear');
+
+// Initial selection of all todo items
+const todos = document.querySelectorAll('.todo');
+
+function updateFilterButtons(activeButton) {
+    const buttons = [allBtn, activeBtn, completedBtn];
+    buttons.forEach(button => button.classList.remove('blue-btn'));
+    activeButton.classList.add('blue-btn');
+}
+
+allBtn.addEventListener('click', () => {
+    todos.forEach(todo => {
+        todo.classList.remove('hidden');
+    });
+    updateFilterButtons(allBtn);
+});
+
+
+activeBtn.addEventListener('click', () => {
+    todos.forEach(todo => {
+        todo.classList.remove('hidden');
+    });
+
+    const completedTodos = document.querySelectorAll('.todo.checked');
+    completedTodos.forEach(completeTodo => {
+        completeTodo.classList.add('hidden');
+    });
+
+    updateFilterButtons(activeBtn);
+});
+
+completedBtn.addEventListener('click', () => {
+    todos.forEach(todo => {
+        todo.classList.add('hidden');
+    });
+
+    const completedTodos = document.querySelectorAll('.todo.checked');
+    completedTodos.forEach(completeTodo => {
+        completeTodo.classList.remove('hidden');
+    });
+
+    updateFilterButtons(completedBtn);
+});
+
+// Clear completed todos
+clearBtn.addEventListener('click', () => {
+    // Remove completed todos
+    const completedTodos = document.querySelectorAll('.todo.checked');
+    completedTodos.forEach(todo => {
+        todo.remove();
+    });
+});
+
+
+// DARK MODE SWITCH
+const body = document.querySelector('.body')
+const moonBtn = document.querySelector('#moon')
+const sunBtn = document.querySelector('#sun')
+
+moonBtn.addEventListener('click', () => {
+    body.classList.remove('light-theme')
+    body.classList.add('dark-theme')
+    moonBtn.classList.add('hidden')
+    sunBtn.classList.remove('hidden')
+})
+sunBtn.addEventListener('click', () => {
+    body.classList.add('light-theme')
+    body.classList.remove('dark-theme')
+    sunBtn.classList.add('hidden')
+    moonBtn.classList.remove('hidden')
+})
+
